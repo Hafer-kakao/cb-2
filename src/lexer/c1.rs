@@ -105,7 +105,7 @@ pub enum C1Token {
     #[regex("true|false")]
     ConstBool,
 
-    #[regex(r#""[^\n]*""#)]
+    #[regex(r#""[^(\n|")]*""#)]
     ConstString,
 
     #[regex("[a-zA-Z]+([0-9]|[a-zA-Z])*")]
@@ -118,7 +118,7 @@ pub enum C1Token {
     #[regex(r#"//[^(\n)]\n"#, logos::skip)]
     CppComment,
 
-    #[regex(" |\n|\r|\t", logos::skip)]
+    #[regex(r"[ \t\n\f]", logos::skip)]
     Whitespace,
 
     #[error]
