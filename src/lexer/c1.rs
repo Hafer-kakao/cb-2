@@ -6,6 +6,24 @@ pub enum C1Token {
     KwBoolean,
     #[token("do")]
     KwDo,
+    #[token("else")]
+    KwElse,
+    #[token("float")]
+    KwFloat,
+    #[token("for")]
+    KwFor,
+    #[token("if")]
+    KwIf,
+    #[token("int")]
+    KwInt,
+    #[token("printf")]
+    KwPrintf,
+    #[token("return")]
+    KwReturn,
+    #[token("void")]
+    KwVoid,
+    #[token("while")]
+    KwWhile,
     #[error]
     Error,
 }
