@@ -95,6 +95,20 @@ pub enum C1Token {
     #[token("}")]
     RBrace,
 
+    // Termvariables
+    #[regex("[0-9]+")]
+    ConstInt,
+    
+    #[regex("([0-9]+\".\"[0-9])|\".\"[0-9]+([eE][-+]?[0-9]+)?")]
+    ConstFloat,
+
+    #[regex("true|false")]
+    ConstBool,
+
+    #[regex("\"\"\"[^\n]*\"\"\"")]
+    ConstString,
+
+    #[regex("[a-zA-Z]+([0-9]|[a-zA-Z])*")]
 
     #[error]
     Error,
