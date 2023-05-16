@@ -103,7 +103,7 @@ pub enum C1Token {
     ConstFloat,
 
     #[regex("true|false")]
-    ConstBool,
+    ConstBoolean,
 
     #[regex(r#""[^(\n|")]*""#)]
     ConstString,
