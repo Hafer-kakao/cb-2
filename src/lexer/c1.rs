@@ -112,13 +112,13 @@ pub enum C1Token {
     Id,
 
     // Comments
-    #[regex(r#"/"*"[^(*/)]*"*"/"#, logos::skip)]
+    #[regex(r#"/\*[^(\*/)]*\*/"#, logos::skip)]
     CComment,
 
     #[regex(r#"//[^(\n)]*\n"#, logos::skip)]
     CppComment,
 
-    #[regex(r"[ \t\n\f]", logos::skip)]
+    #[regex(r"[ \t\n\f\r]", logos::skip)]
     Whitespace,
 
     #[error]
