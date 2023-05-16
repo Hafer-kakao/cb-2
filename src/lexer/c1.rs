@@ -118,6 +118,9 @@ pub enum C1Token {
     #[regex(r#"//[^(\n)]\n"#, logos::skip)]
     CppComment,
 
+    #[regex("\" \"| \n | \t", logos::skip)]
+    Whitespace,
+
     #[error]
     Error,
 }
