@@ -115,7 +115,7 @@ pub enum C1Token {
     #[regex(r#"/"*"[^(*/)]*"*"/"#, logos::skip)]
     CComment,
 
-    #[regex(r#"//[^(\n)]\n"#, logos::skip)]
+    #[regex(r#"//[^(\n)]*\n"#, logos::skip)]
     CppComment,
 
     #[regex(r"[ \t\n\f]", logos::skip)]
