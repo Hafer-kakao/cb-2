@@ -99,17 +99,24 @@ pub enum C1Token {
     #[regex("[0-9]+")]
     ConstInt,
     
-    #[regex("([0-9]+\".\"[0-9])|\".\"[0-9]+([eE][-+]?[0-9]+)? | [0-9]+[eE][-+]?[0-9]+")]
+    #[regex(r#"([0-9]+"."[0-9])|"."[0-9]+([eE][-+]?[0-9]+)?|[0-9]+[eE][-+]?[0-9]+"#)]
     ConstFloat,
 
     #[regex("true|false")]
     ConstBool,
 
-    #[regex("\"\"\"[^\n]*\"\"\"")]
+    #[regex(r#""[^\n]*""#)]
     ConstString,
 
     #[regex("[a-zA-Z]+([0-9]|[a-zA-Z])*")]
     Id,
+
+    // Comments
+    #[regex(r#"/"*"[^(*/)]*"*"/"#, logos::skip)]
+    CComment,
+
+    #[regex(r#"//[^(\n)]\n"#, logos::skip)]
+    CppComment,
 
     #[error]
     Error,
