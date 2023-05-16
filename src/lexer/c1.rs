@@ -36,8 +36,46 @@ pub enum C1Token {
     #[token("while")]
     KwWhile,
 
+    //Operatoren
+    #[token("+")]
+    Plus,
 
+    #[token("-")]
+    Minus,
 
+    #[token("*")]
+    Mal,
+
+    #[token("/")]
+    Slash,
+
+    #[token("=")]
+    Assign,
+
+    #[token("==")]
+    Eq,
+
+    #[token("!=")]
+    Neq,
+
+    #[token("<")]
+    Lss,
+
+    #[token(">")]
+    Grt,
+
+    #[token("<=")]
+    Leq,
+
+    #[token(">=")]
+    Geq,
+
+    #[token("&&")]
+    And,
+
+    #[token("||")]
+    Or,
+    
     // Other Tokens
     #[token(",")]
     Comma,
