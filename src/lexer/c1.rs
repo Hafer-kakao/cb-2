@@ -44,7 +44,7 @@ pub enum C1Token {
     Minus,
 
     #[token("*")]
-    Mal,
+    Asterisk,
 
     #[token("/")]
     Slash,
@@ -96,10 +96,11 @@ pub enum C1Token {
     RBrace,
 
     // Termvariables
-    #[regex("[0-9]+")]
+    #[regex(r#"[0-9]+"#)]
     ConstInt,
+
     
-    #[regex(r#"([0-9]+"."[0-9])|"."[0-9]+([eE][-+]?[0-9]+)?|[0-9]+[eE][-+]?[0-9]+"#)]
+    #[regex(r#"((([0-9]+)?\.[0-9]+)([eE][-+]?[0-9]+)?)|([0-9]+([eE][-+]?[0-9]+))"#)]
     ConstFloat,
 
     #[regex("true|false")]
