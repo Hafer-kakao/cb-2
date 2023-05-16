@@ -36,7 +36,7 @@ pub enum C1Token {
     #[token("while")]
     KwWhile,
 
-    //Operatoren
+    // Operatoren
     #[token("+")]
     Plus,
 
@@ -75,7 +75,7 @@ pub enum C1Token {
 
     #[token("||")]
     Or,
-    
+
     // Other Tokens
     #[token(",")]
     Comma,
