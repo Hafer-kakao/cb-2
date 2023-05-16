@@ -109,6 +109,7 @@ pub enum C1Token {
     ConstString,
 
     #[regex("[a-zA-Z]+([0-9]|[a-zA-Z])*")]
+    Id,
 
     #[error]
     Error,
