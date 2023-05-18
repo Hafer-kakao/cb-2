@@ -30,6 +30,7 @@ pub enum URLToken {
     Link((LinkUrl, LinkText)),
 
     // TODO: Ignore all characters that do not belong to a link definition
+    #[regex(r#"[^(<a{ }href)]"#, logos::skip)]
     Ignored,
 
     // Catch any error

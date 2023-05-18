@@ -99,7 +99,6 @@ pub enum C1Token {
     #[regex(r#"[0-9]+"#)]
     ConstInt,
 
-    
     #[regex(r#"((([0-9]+)?\.[0-9]+)([eE][-+]?[0-9]+)?)|([0-9]+([eE][-+]?[0-9]+))"#)]
     ConstFloat,
 
