@@ -27,6 +27,10 @@ impl Display for LinkText {
 #[derive(Logos, Debug, PartialEq)]
 pub enum URLToken {
     // TODO: Capture link definitions
+    //               Link-URL trust  Link-Text trust
+    //              ________________ ______________
+    // Bei URL maybe noch "name=..." dabei
+    #[regex(r#"href=(["'])(.*)(["'])>[a-zA-Z\s\-.]*<"#, extract_link_info)]
     Link((LinkUrl, LinkText)),
 
     // TODO: Ignore all characters that do not belong to a link definition
