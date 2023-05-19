@@ -27,10 +27,10 @@ impl Display for LinkText {
 #[derive(Logos, Debug, PartialEq)]
 pub enum URLToken {
     // TODO: Capture link definitions
-    //               Link-URL trust  Link-Text trust
-    //              ________________ ______________
+    //              Link-URL Link-Text trust
+    //              ________ ______________
     // Bei URL maybe noch "name=..." dabei
-    #[regex(r#"href=(["'])(.*)(["'])>[a-zA-Z\s\-.]*<"#, extract_link_info)]
+    #[regex(r#"href=("(.*)")>[a-zA-Z\s\-.]*<"#, extract_link_info)]
     Link((LinkUrl, LinkText)),
 
     // TODO: Ignore all characters that do not belong to a link definition
@@ -44,6 +44,27 @@ pub enum URLToken {
 
 /// Extracts the URL and text from a string that matched a Link token
 fn extract_link_info(lex: &mut Lexer<URLToken>) -> (LinkUrl, LinkText) {
-    // TODO: Implement extraction from link definition
-    todo!()
+    let slice: &str = lex.slice();
+
+    let mut url: String = String::new();
+    let mut text: String = String::new();
+
+    for c in slice.chars() {
+        let mut append_next: bool = false;
+        if c == '"' && append_next == false {
+            append_next = true;
+            continue;
+        }
+        else if c == '"' && append_next == true {
+            append_next = false;
+            continue;
+        } else {
+            if append_next {
+                url.push(c);
+            }
+            continue;
+        }
+    }
+    
+    (LinkUrl(url), LinkText(text))
 }
