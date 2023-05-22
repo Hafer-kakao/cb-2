@@ -1,4 +1,4 @@
-use logos::{Lexer, Logos, Source};
+use logos::{Lexer, Logos, Filter};
 use std::fmt::{Display, Formatter};
 
 /// Tuple struct for link URLs
@@ -26,15 +26,10 @@ impl Display for LinkText {
 /// Token enum for capturing of link URLs and Texts
 #[derive(Logos, Debug, PartialEq)]
 pub enum URLToken {
-    // TODO: Capture link definitions
-    //              Link-URL Link-Text trust
-    //              ________ ______________
-    // Bei URL maybe noch "name=..." dabei
-    #[regex(r#"href=("(.*)")>[a-zA-Z\s\-.]*<"#, extract_link_info)]
+    #[regex(r#"<a\s+(\s*[^">]*"[^"]*")*>[^<>]*</a\s*>"#, extract_link_info)]
     Link((LinkUrl, LinkText)),
 
-    // TODO: Ignore all characters that do not belong to a link definition
-    #[regex(r#"[^(href=(["'])(.*)(["'])>[a-zA-Z\s\-.]*<)]"#, logos::skip)]
+    #[regex(r#"\s*<([^a]|a[^\s>])(\s*[^">]*("[^"]*")?)*\s*>[^<>]*"#, logos::skip)]
     Ignored,
 
     // Catch any error
@@ -43,28 +38,38 @@ pub enum URLToken {
 }
 
 /// Extracts the URL and text from a string that matched a Link token
-fn extract_link_info(lex: &mut Lexer<URLToken>) -> (LinkUrl, LinkText) {
-    let slice: &str = lex.slice();
-
-    let mut url: String = String::new();
-    let mut text: String = String::new();
-
-    for c in slice.chars() {
-        let mut append_next: bool = false;
-        if c == '"' && append_next == false {
-            append_next = true;
-            continue;
-        }
-        else if c == '"' && append_next == true {
-            append_next = false;
-            continue;
-        } else {
-            if append_next {
-                url.push(c);
-            }
-            continue;
-        }
+fn extract_link_info(lex: &mut Lexer<URLToken>) -> Filter<(LinkUrl, LinkText)> {
+    match extract_link_info_option(lex) {
+        Some(result) => Filter::Emit(result),
+        None => Filter::Skip
     }
+}
+
+fn extract_link_info_option(lex: &mut Lexer<URLToken>) -> Option<(LinkUrl, LinkText)> {
+    let mut slice: &str = lex.slice();
+
+    // extract url
+    let href_i = slice.find("href")?;
+
+    slice = &slice[href_i+4..];
+
+    let url_begin = slice.find('\"')?;
+
+    slice = &slice[url_begin+1..];
+
+    let url_end = slice.find('\"')?;
     
-    (LinkUrl(url), LinkText(text))
+    let url = String::from(&slice[..url_end]);
+
+
+    // extract text
+    let text_end = slice.rfind('<')?;
+
+    slice = &slice[url_end..text_end];
+
+    let text_begin = slice.rfind('>')?;
+
+    let text = String::from(&slice[text_begin+1..]);
+
+    Some((LinkUrl(url), LinkText(text)))
 }
